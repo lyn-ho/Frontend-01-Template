@@ -14,7 +14,7 @@ let stack = [{
 
 function emit(token) {
   // console.log(token)
-  if (token.type === 'text') return
+  // if (token.type === 'text') return
 
   let top = stack[stack.length - 1]
 
@@ -53,6 +53,16 @@ function emit(token) {
     }
 
     currentTextNode = null
+  } else if (token.type === 'text') {
+    if (currentTextNode === null) {
+      currentTextNode = {
+        type: 'text',
+        content: ''
+      }
+
+      top.children.push(currentTextNode)
+    }
+    currentTextNode.content += token.content
   }
 }
 
