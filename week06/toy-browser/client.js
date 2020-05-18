@@ -1,6 +1,6 @@
 const net = require('net')
 
-const { parseHTML } = require('./parse/parse-tag')
+const { parseHTML } = require('./parser')
 
 class Request {
   // method, url = host + port + path

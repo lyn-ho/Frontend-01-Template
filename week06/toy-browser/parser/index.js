@@ -5,12 +5,21 @@ const spaceReg = /^[\t\n\f ]$/
 
 let currentToken = {}
 
+function emit(token) {
+  console.log(token)
+}
+
 function data(c) {
   if (c === '<') {
     return tagOpen
   } else if (c === EOF) {
+    emit({ type: 'EOF' })
     return
   } else {
+    emit({
+      type: 'text',
+      content: c
+    })
     return data
   }
 }
@@ -31,6 +40,7 @@ function endTagOpen() {
       type: 'endTag',
       tagName: ''
     }
+    return tagName(c)
   } else if (c === '>') {
     
   } else if (c === EOF) {
@@ -46,8 +56,10 @@ function tagName() {
   } else if (c === '/') {
     return selfClosingStartTag
   } else if (c.match(letterReg)) {
+    currentToken.tagName += c
     return tagName
   } else if (c === '>') {
+    emit(currentToken)
     return data
   } else {
     return tagName
