@@ -25,12 +25,29 @@ function addCSSRules(text) {
 }
 
 function match(element, selector) {
-  
+  if (!selector || !element.attributes) return false
+
+  // console.log(selector, element.attributes)
+
+  if (selector.charAt(0) === '#') {
+    const attr = element.attributes.filter(attr => attr.name === 'id')[0]
+
+    if(attr && attr.value === selector.replace('#', '')) return true
+  } else if (selector.charAt(0) === '.') {
+    // TODO class array
+    const attr = element.attributes.filter(attr => attr.name === 'class')[0]
+
+    if(attr && attr.value === selector.replace('.', '')) return true
+  } else {
+    if(element.tagName === selector) return true
+  }
+
+  return false
 }
 
 function computeCSS(element) {
-  console.log(rules)
-  console.log('compute CSS for element', element)
+  // console.log(rules)
+  // console.log('compute CSS for element', element)
 
   if (!element.computedStyle) {
     element.computedStyle = {}
@@ -53,6 +70,7 @@ function computeCSS(element) {
       if (j >= selectorParts.length) matched = true
 
       if (matched) {
+        // TODO matched
         console.log('Element', element, 'matched rule', rule)
       }
     }
@@ -73,6 +91,8 @@ function emit(token) {
     }
 
     element.tagName = token.tagName
+
+    // console.log(token)
 
     for (let p in token) {
       if (p !== 'type' && p !== 'tagName') {
@@ -335,6 +355,7 @@ function unquotedAttributeValue(c) {
 function selfClosingStartTag(c) {
   if (c === '>') {
     currentToken.isSelfClosing = true
+    emit(currentToken)
     return data
   } else if (c === EOF) {
     
