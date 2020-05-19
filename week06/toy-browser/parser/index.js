@@ -19,9 +19,44 @@ let rules = []
 function addCSSRules(text) {
   const ast = css.parse(text)
 
-  console.log(JSON.stringify(ast, null, '    '))
+  // console.log(JSON.stringify(ast, null, '    '))
 
   rules.push(...ast.stylesheet.rules)
+}
+
+function match(element, selector) {
+  
+}
+
+function computeCSS(element) {
+  console.log(rules)
+  console.log('compute CSS for element', element)
+
+  if (!element.computedStyle) {
+    element.computedStyle = {}
+    let elements = stack.slice().reverse()
+
+    for (let rule of rules) {
+      const selectorParts = rule.selectors[0].split(' ').reverse()
+
+      if(!match(element, selectorParts[0])) continue
+
+      let matched = false
+
+      let j = 1
+      for (let i = 0;i < elements.length;i++) {
+        if (match(elements[i], selectorParts[j])) {
+          j++
+        }
+      }
+
+      if (j >= selectorParts.length) matched = true
+
+      if (matched) {
+        console.log('Element', element, 'matched rule', rule)
+      }
+    }
+  }
 }
 
 function emit(token) {
@@ -47,6 +82,9 @@ function emit(token) {
         })
       }
     }
+
+    // compute css of element
+    computeCSS(element)
 
     // console.log(element)
     top.children.push(element)
