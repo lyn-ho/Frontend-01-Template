@@ -1,3 +1,5 @@
+const css = require('css')
+
 const EOF = Symbol('EOF')
 
 const letterReg = /^[a-zA-Z]$/
@@ -11,6 +13,16 @@ let stack = [{
   type: 'document',
   children: []
 }]
+
+let rules = []
+
+function addCSSRules(text) {
+  const ast = css.parse(text)
+
+  console.log(JSON.stringify(ast, null, '    '))
+
+  rules.push(...ast.stylesheet.rules)
+}
 
 function emit(token) {
   // console.log(token)
@@ -36,7 +48,7 @@ function emit(token) {
       }
     }
 
-    console.log(element)
+    // console.log(element)
     top.children.push(element)
     element.parent = top
 
@@ -49,6 +61,11 @@ function emit(token) {
     if (top.tagName !== token.tagName) {
       throw new Error('Tag start end doesn\'t match!')
     } else {
+      // style 标签，执行添加 CSS 规则
+      if (top.tagName === 'style') {
+        addCSSRules(top.children[0].content)
+      }
+
       stack.pop()
     }
 
@@ -297,5 +314,6 @@ module.exports.parseHTML = function parseHTML(html) {
   }
 
   state = state(EOF)
-  console.log(stack[0])
+  // console.log(stack[0])
+  return stack[0]
 }

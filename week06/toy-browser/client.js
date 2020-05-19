@@ -236,7 +236,8 @@ void async function () {
 
   // console.log(response)
 
-  parseHTML(response.body)
+  let dom = parseHTML(response.body)
+  console.log(dom)
 }()
 
 // const client = net.createConnection({
