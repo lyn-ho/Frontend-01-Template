@@ -1,4 +1,5 @@
 const css = require('css')
+const { match, specificity, compare } = require('./css_helper')
 
 const EOF = Symbol('EOF')
 
@@ -22,27 +23,6 @@ function addCSSRules(text) {
   // console.log(JSON.stringify(ast, null, '    '))
 
   rules.push(...ast.stylesheet.rules)
-}
-
-function match(element, selector) {
-  if (!selector || !element.attributes) return false
-
-  // console.log(selector, element.attributes)
-
-  if (selector.charAt(0) === '#') {
-    const attr = element.attributes.filter(attr => attr.name === 'id')[0]
-
-    if(attr && attr.value === selector.replace('#', '')) return true
-  } else if (selector.charAt(0) === '.') {
-    // TODO class array
-    const attr = element.attributes.filter(attr => attr.name === 'class')[0]
-
-    if(attr && attr.value === selector.replace('.', '')) return true
-  } else {
-    if(element.tagName === selector) return true
-  }
-
-  return false
 }
 
 function computeCSS(element) {
@@ -71,13 +51,21 @@ function computeCSS(element) {
 
       if (matched) {
         // console.log('Element', element, 'matched rule', rule)
+        const sp = specificity(rule.selectors[0])
 
         const computedStyle = element.computedStyle
 
         for (let declaration of rule.declarations) {
           if (!computedStyle[declaration.property]) computedStyle[declaration.property] = {}
 
-          computedStyle[declaration.property].value = declaration.value
+          // computedStyle[declaration.property].value = declaration.value
+          if (!computedStyle[declaration.property].specificity) {
+            computedStyle[declaration.property].value = declaration.value
+            computedStyle[declaration.property].specificity = sp
+          } else if (compare(computedStyle[declaration.property].specificity, sp) < 0) {
+            computedStyle[declaration.property].value = declaration.value
+            computedStyle[declaration.property].specificity = sp
+          }
         }
 
         console.log(computedStyle)
