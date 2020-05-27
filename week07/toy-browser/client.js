@@ -243,7 +243,8 @@ void async function () {
 
   const viewport = images(800, 600)
 
-  render(viewport, dom.children[1].children[3].children[1].children[1])
+  // render(viewport, dom.children[1].children[3].children[1].children[1])
+  render(viewport, dom)
 
   viewport.save('viewport.jpg')
 }()
