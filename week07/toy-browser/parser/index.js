@@ -123,9 +123,9 @@ function emit(token) {
       }
 
       // layout
-      layout(top, '----- ', top.computedStyle)
+      layout(top)
 
-      console.log(top.style)
+      console.log(top.style, '----- ', top.computedStyle)
 
       stack.pop()
     }

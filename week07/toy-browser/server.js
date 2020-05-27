@@ -10,16 +10,25 @@ const server = http.createServer((req, res) => {
 <html>
   <head>
     <style>
-      div {
-        border:solid 1px black
+      #container {
+        width: 500px;
+        height: 300px;
+        display: flex;
+      }
+
+      #container #myid {
+        width: 200px;
+      }
+
+      #container .c1 {
+        flex: 1;
       }
     </style>
   </head>
   <body>
-    <div style="align-items:center;display:inline-flex;width:500px;justify-content:space-around;">
-      <div  style="flex:1;width:100px;height:70px;"></div>
-      <div  style="width:200px;height:50px;"></div>
-      <div  style="width:200px;height:100px;"></div>
+    <div id="container">
+      <div id="myid"></div>
+      <div class="c1"></div>
     </div>
   </body>
 </html>

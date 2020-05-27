@@ -30,7 +30,7 @@ function layout(element) {
   const style = elementStyle
 
   /// prepare
-  items.sort((el1, el2) => (el1.order || 0) - (el2.order || 0))
+  items.sort((el1, el2) => (el1.order || 0) - (el2.order || 0));
 
   ['width', 'height'].forEach(size => {
     if (style[size] === 'auto' || style[size] === '') {
@@ -209,8 +209,8 @@ function layout(element) {
       for (let item of items) {
         const itemStyle = getStyle(item)
 
-        if (itemStyle.flex !== null && itemStyle !== (void 0)) {
-          flexTotal += itemStyle.flex
+        if (itemStyle.flex !== null && itemStyle.flex !== (void 0)) {
+          flexTotal = flexTotal + itemStyle.flex
           continue
         }
       }
