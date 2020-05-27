@@ -18,12 +18,8 @@ function getStyle(element) {
   return element.style
 }
 
-function prepare(element) {
-  const items = element.children.filter(el => el.type === 'element')
-
+function prepare(items, style) {
   items.sort((el1, el2) => (el1.order || 0) - (el2.order || 0))
-
-  const style = elementStyle
 
   ['width', 'height'].forEach(size => {
     if (style[size] === 'auto' || style[size] === '') {
@@ -51,7 +47,7 @@ function prepare(element) {
     crossSize, crossStart, crossEnd, crossSign, crossBase;
 
   if (style.flexDirection === 'row') {
-    mainSign = 'width'
+    mainSize = 'width'
     mainStart = 'left'
     mainEnd = 'right'
     mainSign = +1
@@ -62,7 +58,7 @@ function prepare(element) {
     crossEnd = 'bottom'
   }
   if (style.flexDirection === 'row-reverse') {
-    mainSign = 'width'
+    mainSize = 'width'
     mainStart = 'right'
     mainEnd = 'left'
     mainSign = -1
@@ -74,7 +70,7 @@ function prepare(element) {
   }
 
   if (style.flexDirection === 'column') {
-    mainSign = 'height'
+    mainSize = 'height'
     mainStart = 'top'
     mainEnd = 'bottom'
     mainSign = +1
@@ -85,7 +81,7 @@ function prepare(element) {
     crossEnd = 'right'
   }
   if (style.flexDirection === 'column-reverse') {
-    mainSign = 'height'
+    mainSize = 'height'
     mainStart = 'bottom'
     mainEnd = 'top'
     mainSign = -1
@@ -103,7 +99,9 @@ function prepare(element) {
     crossBase = 0
     crossSign = +1
   }
+}
 
+function collectFlexLines(items, style) {
   let isAutoMainSize = false
 
   if (!style[mainSize]) {
@@ -117,6 +115,56 @@ function prepare(element) {
     }
     isAutoMainSize = true
   }
+
+  let flexLine = []
+  let flexLines = [flexLine]
+
+  let mainSpace = elementStyle[mainSize]
+  let crossSpace = 0
+
+  for (let item of items) {
+    const itemStyle = getStyle(item)
+
+    if (itemStyle[mainSize] === null || itemStyle[mainSize] === (void 0)) {
+      itemStyle[mainSize] = 0
+    }
+
+    if (itemStyle.flex) {
+      flexLine.push(item)
+    } else if (style.flexWrap === 'nowrap' && isAutoMainSize) {
+      mainSpace -= itemStyle[mainSize]
+      if (itemStyle[crossSize] !== null || itemStyle[crossSize] !== (void 0)) {
+        crossSpace = Math.max(crossSpace, itemStyle[crossSize])
+      }
+      flexLine.push(item)
+    } else {
+      if (itemStyle[mainSize] > style[mainSize]) {
+        itemStyle[mainSize] = style[mainSize]
+      }
+
+      if (mainSpace < itemStyle[mainSize]) {
+        flexLine.mainSpace = mainSpace
+        flexLine.crossSpace = crossSpace
+
+        flexLine = []
+        flexLines.push(flexLine)
+
+        flexLine.push(item)
+
+        mainSpace = style[mainSize]
+        crossSpace = 0
+      } else {
+        flexLine.push(item)
+      }
+
+      if (itemStyle[crossSize] !== null || itemStyle[crossSize] !== (void 0)) {
+        crossSpace = Math.max(crossSpace, itemStyle[crossSize])
+      }
+      mainSpace -= itemStyle[mainSize]
+    }
+  }
+  flexLine.mainSpace = mainSpace
+  flexLine.crossSpace = crossSpace
 }
 
 function layout(element) {
@@ -126,7 +174,13 @@ function layout(element) {
 
   if (elementStyle.display !== 'flex') return
 
-  prepare(element)
+  const items = element.children.filter(el => el.type === 'element')
+
+  const style = elementStyle
+
+  prepare(items, style)
+
+  collectFlexLines(items, style)
 }
 
 module.exports = layout
