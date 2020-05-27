@@ -1,6 +1,8 @@
 const net = require('net')
+const images = require('images')
 
 const { parseHTML } = require('./parser')
+const render = require('./render')
 
 class Request {
   // method, url = host + port + path
@@ -237,7 +239,13 @@ void async function () {
   // console.log(response)
 
   let dom = parseHTML(response.body)
-  console.log(dom)
+  // console.log(dom)
+
+  const viewport = images(800, 600)
+
+  render(viewport, dom.children[1].children[3].children[1].children[1])
+
+  viewport.save('viewport.jpg')
 }()
 
 // const client = net.createConnection({
