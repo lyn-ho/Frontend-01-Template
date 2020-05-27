@@ -18,7 +18,18 @@ function getStyle(element) {
   return element.style
 }
 
-function prepare(items, style) {
+function layout(element) {
+  if (!element.computedStyle) return
+
+  const elementStyle = getStyle(element)
+
+  if (elementStyle.display !== 'flex') return
+
+  const items = element.children.filter(el => el.type === 'element')
+
+  const style = elementStyle
+
+  /// prepare
   items.sort((el1, el2) => (el1.order || 0) - (el2.order || 0))
 
   ['width', 'height'].forEach(size => {
@@ -99,9 +110,7 @@ function prepare(items, style) {
     crossBase = 0
     crossSign = +1
   }
-}
 
-function collectFlexLines(items, style) {
   let isAutoMainSize = false
 
   if (!style[mainSize]) {
@@ -116,6 +125,7 @@ function collectFlexLines(items, style) {
     isAutoMainSize = true
   }
 
+  /// collect flex lines
   let flexLine = []
   let flexLines = [flexLine]
 
@@ -164,23 +174,90 @@ function collectFlexLines(items, style) {
     }
   }
   flexLine.mainSpace = mainSpace
-  flexLine.crossSpace = crossSpace
-}
+  // flexLine.crossSpace = crossSpace
+  if (style.flexWrap === 'nowrap' || isAutoMainSize) {
+    flexLine.crossSpace = (style[crossSize] !== (void 0)) ? style[crossSize] : crossSpace
+  } else {
+    flexLine.crossSpace = crossSpace
+  }
 
-function layout(element) {
-  if (!element.computedStyle) return
+  ///
+  if (mainSpace < 0) {
+    // overflow (happens only if container is single line), scale every item
+    const scale = style[mainSize] / (style[mainSize] - mainSpace)
+    let currentMain = mainBase
 
-  const elementStyle = getStyle(element)
+    for (let item of items) {
+      const itemStyle = getStyle(item)
 
-  if (elementStyle.display !== 'flex') return
+      if (itemStyle.flex) {
+        itemStyle[mainSize] = 0
+      }
 
-  const items = element.children.filter(el => el.type === 'element')
+      itemStyle[mainSize] = itemStyle[mainSize] * scale
 
-  const style = elementStyle
+      itemStyle[mainStart] = currentMain
+      itemStyle[mainEnd] = itemStyle[mainStart] + mainSign * itemStyle[mainSize]
+      currentMain = itemStyle[mainEnd]
+    }
+  } else {
+    // process each flex line
+    flexLines.forEach((items) => {
+      let mainSpace = items.mainSpace
+      let flexTotal = 0
 
-  prepare(items, style)
+      for (let item of items) {
+        const itemStyle = getStyle(item)
 
-  collectFlexLines(items, style)
+        if (itemStyle.flex !== null && itemStyle !== (void 0)) {
+          flexTotal += itemStyle.flex
+          continue
+        }
+      }
+
+      if (flexTotal > 0) {
+        let currentMain = mainBase
+        for (let item of items) {
+          const itemStyle = getStyle(item)
+
+          if (itemStyle.flex) {
+            itemStyle[mainSize] = (mainSpace / flexTotal) * itemStyle.flex
+          }
+
+          itemStyle[mainStart] = currentMain
+          itemStyle[mainEnd] = itemStyle[mainStart] + mainSign * itemStyle[mainSize]
+          currentMain = itemStyle[mainEnd]
+        }
+      } else {
+        // There is *NO* flexible flex items, which means, justifyContent should work
+        let currentMain, step;
+        if (style.justifyContent === 'flex-start') {
+          currentMain = mainBase
+          step = 0
+        } else if (style.justifyContent === 'flex-end') {
+          currentMain = mainSpace * mainSign + mainBase
+          step = 0
+        } else if (style.justifyContent === 'center') {
+          currentMain = mainSpace / 2 * mainSign + mainBase
+          step = 0
+        } else if (style.justifyContent === 'space-between') {
+          currentMain = mainBase
+          step = mainSpace / (items.length - 1) * mainSign
+        } else if (style.justifyContent === 'space-around') {
+          step = mainSpace / items.length * mainSign
+          currentMain = step / 2 + mainBase
+        }
+
+        for (let item of items) {
+          const itemStyle = getStyle(item)
+
+          itemStyle[mainStart] = currentMain
+          itemStyle[mainEnd] = itemStyle[mainStart] + mainSign * itemStyle[mainSize]
+          currentMain = itemStyle[mainEnd] + step
+        }
+      }
+    })
+  }
 }
 
 module.exports = layout
