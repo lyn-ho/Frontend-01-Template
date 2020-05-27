@@ -130,7 +130,7 @@ function layout(element) {
   let flexLines = [flexLine]
 
   let mainSpace = elementStyle[mainSize]
-  let crossSpace = 0
+  crossSpace = 0
 
   for (let item of items) {
     const itemStyle = getStyle(item)
@@ -181,7 +181,7 @@ function layout(element) {
     flexLine.crossSpace = crossSpace
   }
 
-  ///
+  /// compute the main axis sizes
   if (mainSpace < 0) {
     // overflow (happens only if container is single line), scale every item
     const scale = style[mainSize] / (style[mainSize] - mainSpace)
@@ -230,19 +230,17 @@ function layout(element) {
         }
       } else {
         // There is *NO* flexible flex items, which means, justifyContent should work
-        let currentMain, step;
+        let currentMain
+        let step = 0
         if (style.justifyContent === 'flex-start') {
           currentMain = mainBase
-          step = 0
         } else if (style.justifyContent === 'flex-end') {
           currentMain = mainSpace * mainSign + mainBase
-          step = 0
         } else if (style.justifyContent === 'center') {
           currentMain = mainSpace / 2 * mainSign + mainBase
-          step = 0
         } else if (style.justifyContent === 'space-between') {
-          currentMain = mainBase
           step = mainSpace / (items.length - 1) * mainSign
+          currentMain = mainBase
         } else if (style.justifyContent === 'space-around') {
           step = mainSpace / items.length * mainSign
           currentMain = step / 2 + mainBase
@@ -258,6 +256,80 @@ function layout(element) {
       }
     })
   }
+
+  // compute the cross axis sizes
+  if (!style[crossSize]) {
+    crossSpace = 0
+    elementStyle[crossSize] = 0
+
+    for (let flexLine of flexLines) {
+      elementStyle[crossSize] = elementStyle[crossSize] + flexLine.crossSpace
+    }
+  } else {
+    crossSpace = style[crossSize]
+
+    for (let flexLine of flexLines) {
+      crossSpace -= flexLine.crossSpace
+    }
+  }
+
+  if (style.flexWrap === 'wrap-reverse') {
+    crossBase = style[crossSize]
+  } else {
+    crossBase = 0
+  }
+
+  // let lineSize = style[crossSize] / flexLines.length
+  let step = 0
+  if (style.alignContent === 'flex-start') {
+    crossBase += 0
+  } else if (style.alignContent === 'flex-end') {
+    crossBase += crossSign * crossSpace
+  } else if (style.alignContent === 'center') {
+    crossBase += crossSign * crossSpace / 2
+  } else if (style.alignContent === 'space-between') {
+    step = crossSpace / (flexLines.length - 1)
+    crossBase += 0
+  } else if (style.alignContent === 'space-around') {
+    step = crossSpace / flexLines.length
+    crossBase += crossSign * step / 2
+  } else if (style.alignContent === 'stretch') {
+    crossBase += 0
+  }
+
+  flexLines.forEach((items) => {
+    let lineCrossSize = style.alignContent === 'stretch' ? items.crossSpace + crossSpace / flexLines.length : items.crossSpace
+
+    for (let item of items) {
+      const itemStyle = getStyle(item)
+
+      const align = itemStyle.alignSelf || style.alignItems
+
+      if (itemStyle[crossSize] === null || itemStyle[crossSize] === (void 0)) {
+        itemStyle[crossSize] = (align === 'stretch') ? lineCrossSize : 0
+      }
+
+      if (align === 'flex-start') {
+        itemStyle[crossStart] = crossBase
+        itemStyle[crossEnd] = itemStyle[crossStart] + crossSign * itemStyle[crossSize]
+      } else if (align === 'flex-end') {
+        itemStyle[crossEnd] = crossBase + crossSign * lineCrossSize
+        itemStyle[crossStart] = itemStyle[crossEnd] - crossSign * itemStyle[crossSize]
+      } else if (align === 'center') {
+        itemStyle[crossStart] = crossBase + crossSign * (lineCrossSize - itemStyle[crossSize]) / 2
+        itemStyle[crossEnd] = itemStyle[crossStart] + crossSign * itemStyle[crossSize]
+      } else if (align === 'stretch') {
+        itemStyle[crossStart] = crossBase
+        itemStyle[crossEnd] = crossBase + crossSign * ((itemStyle[crossSize] !== null && itemStyle[crossSize] !== (void 0)) ? itemStyle[crossSize] : lineCrossSize)
+
+        itemStyle[crossSize] = crossSign * (itemStyle[crossEnd] - itemStyle[crossStart])
+      }
+    }
+
+    crossBase += crossSign * (lineCrossSize + step)
+  })
+
+  console.log(items)
 }
 
 module.exports = layout
