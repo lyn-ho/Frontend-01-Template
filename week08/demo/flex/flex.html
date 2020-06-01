@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style>
+    .wrapper {
+      margin-bottom: 100px;
+    }
+
+    .wrapper:last-child {
+      margin-bottom: 0;
+    }
+
+    .flex-wrapper {
+      display: flex;
+    }
+
+    .flex-item {
+      width: 100px;
+      height: 100px;
+      background-color: lightgreen;
+      border: 1px solid blueviolet;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="flex-wrapper">
+      <div class="flex-item"></div>
+      <div class="flex-item"></div>
+      <div class="flex-item"></div>
+    </div>
+    文字 文字
+    文字 文字
+    文字 文字
+    文字 文字
+    文字 文字
+  </div>
+  <div class="wrapper">
+    <div class="flex-wrapper" style="display: inline-flex;">
+      <div class="flex-item"></div>
+      <div class="flex-item"></div>
+      <div class="flex-item"></div>
+    </div>
+    文字 文字
+    文字 文字
+    文字 文字
+    文字 文字
+    文字 文字
+  </div>
+</body>
+</html>

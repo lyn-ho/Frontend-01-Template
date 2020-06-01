@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>margin</title>
+
+  <style>
+    .wrapper {
+      margin-bottom: 100px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div style="background-color: lightgreen;">
+      <div style="width: 100px; height: 100px; background-color: aqua; margin: 20px;"></div>
+      <div style="width: 100px; height: 100px; background-color: aqua; margin: 30px;"></div>
+      <div style="width: 100px; height: 100px; background-color: aqua; margin: 20px;"></div>
+      <div style="width: 100px; height: 100px; background-color: aqua; margin: 20px;"></div>
+    </div>
+  </div>
+  <div class="wrapper">
+    <div style="background-color: lightgreen;">
+      <div style="width: 100px; height: 100px; background-color: aqua; margin: 20px;"></div>
+      <div style="width: 100px; height: 100px; background-color: aqua; margin: 30px;"></div>
+      <div>
+        <div style="width: 100px; height: 100px; background-color: aqua; margin: 20px;"></div>
+        <div style="width: 100px; height: 100px; background-color: aqua; margin: 20px;"></div>
+      </div>
+    </div>
+  </div>
+  <div class="wrapper">
+    <div style="background-color: lightgreen;">
+      <div style="width: 100px; height: 100px; background-color: aqua; margin: 20px;"></div>
+      <div style="width: 100px; height: 100px; background-color: aqua; margin: 30px;"></div>
+      <div style="overflow: hidden;">
+        <div style="width: 100px; height: 100px; background-color: aqua; margin: 20px;"></div>
+        <div style="width: 100px; height: 100px; background-color: aqua; margin: 20px;"></div>
+      </div>
+    </div>
+  </div>
+  <div class="wrapper">
+    <div style="background-color: lightgreen;">
+      <div style="width: 100px; height: 100px; background-color: aqua; margin: 20px;"></div>
+      <div style="width: 100px; height: 100px; background-color: aqua; margin: 30px;"></div>
+      <div style="display: flex;">
+        <div style="width: 100px; height: 100px; background-color: aqua; margin: 20px;">文字 文字 文字 文字 文字 文字 文字 文字 文字 文字 文字 文字 文字 文字 </div>
+        <div style="width: 100px; height: 100px; background-color: aqua; margin: 20px;">文字 文字 文字 文字 文字 文字 文字 文字 文字 文字 文字 文字 文字 文字 </div>
+        <div style="width: 100px; height: 100px; background-color: aqua; margin: 20px;">文字 文字 文字 文字 文字 文字 文字 文字 文字 文字 文字 文字 文字 文字 </div>
+      </div>
+    </div>
+  </div>
+  <div class="wrapper">
+    <div style="height: 500px; background-color: lightgreen;">
+      <div style="width: 100px; height: 100px; background-color: aqua; margin: 20px;"></div>
+      <div style="background-color: pink; overflow: hidden;">
+        <div style="width: 100px; height: 100px; background-color: blue; margin: 20px;"></div>
+        文字 文字 文字 文字 文字
+        文字 文字 文字 文字 文字
+        文字 文字 文字 文字 文字
+        文字 文字 文字 文字 文字
+        文字 文字 文字 文字 文字
+        文字 文字 文字 文字 文字
+        文字 文字 文字 文字 文字
+        文字 文字 文字 文字 文字
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IFC</title>
+
+  <style>
+    .wrapper {
+      font-size: 50px;
+      line-height: 100px;
+      background-color: pink;
+
+      margin-bottom: 100px;
+    }
+
+    .line-wrapper {
+      overflow: visible;
+      display: inline-block;
+      width: 1px;
+      height: 1px;
+    }
+
+    .line {
+      width: 1000px;
+      height: 1px;
+    }
+
+    .baseline-wrapper {
+      vertical-align: baseline;
+    }
+
+    .baseline {
+      background-color: red;
+    }
+
+    .top-wrapper {
+      vertical-align: top;
+    }
+
+    .top {
+      background-color: green;
+    }
+
+    .bottom-wrapper {
+      vertical-align: bottom;
+    }
+
+    .bottom {
+      background-color: darkorange;
+    }
+
+    .text-top-wrapper {
+      vertical-align: text-top;
+    }
+
+    .text-top {
+      background-color: darkblue;
+    }
+
+    .text-bottom-wrapper {
+      vertical-align: text-bottom;
+    }
+
+    .text-bottom {
+      background-color: purple;
+    }
+
+    .inline {
+      display: inline-block;
+      width: 100px;
+      height: 100px;
+      line-height: 70px;
+      background-color: aqua;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="line-wrapper baseline-wrapper">
+      <div class="line baseline"></div>
+    </div>
+    hello1
+    <div class="inline">world!</div>
+  </div>
+
+  <!--
+    with out text
+    一个 inline-box 如果元素内没有文字，基线在元素底部
+  -->
+  <div class="wrapper">
+    <div class="line-wrapper baseline-wrapper">
+      <div class="line baseline"></div>
+    </div>
+    hello2
+    <div class="inline"></div>
+  </div>
+
+  <div class="wrapper">
+    <div class="line-wrapper baseline-wrapper">
+      <div class="line baseline"></div>
+    </div>
+    <div class="line-wrapper top-wrapper">
+      <div class="line top"></div>
+    </div>
+    <div class="line-wrapper bottom-wrapper">
+      <div class="line bottom"></div>
+    </div>
+    hello3
+    <div class="inline" style="height: 150px; vertical-align: bottom;"></div>
+  </div>
+
+  <div class="wrapper">
+    <div class="line-wrapper baseline-wrapper">
+      <div class="line baseline"></div>
+    </div>
+    <div class="line-wrapper top-wrapper">
+      <div class="line top"></div>
+    </div>
+    <div class="line-wrapper bottom-wrapper">
+      <div class="line bottom"></div>
+    </div>
+    hello4
+    <div class="inline" style="height: 150px; vertical-align: top;"></div>
+  </div>
+
+  <div class="wrapper">
+    <div class="line-wrapper baseline-wrapper">
+      <div class="line baseline"></div>
+    </div>
+    <div class="line-wrapper top-wrapper">
+      <div class="line top"></div>
+    </div>
+    <div class="line-wrapper bottom-wrapper">
+      <div class="line bottom"></div>
+    </div>
+    hello5
+    <div class="inline" style="height: 150px; vertical-align: bottom;"></div>
+    <div class="inline" style="height: 50px; vertical-align: top;"></div>
+  </div>
+
+  <div class="wrapper">
+    <div class="line-wrapper baseline-wrapper">
+      <div class="line baseline"></div>
+    </div>
+    <div class="line-wrapper top-wrapper">
+      <div class="line top"></div>
+    </div>
+    <div class="line-wrapper bottom-wrapper">
+      <div class="line bottom"></div>
+    </div>
+    hello6
+    <div class="inline" style="height: 150px; vertical-align: bottom;"></div>
+    <div class="inline" style="height: 50px; vertical-align: top;"></div>
+    <div class="inline" style="height: 350px; background-color: plum; vertical-align: top;"></div>
+  </div>
+
+  <div class="wrapper">
+    <div class="line-wrapper baseline-wrapper">
+      <div class="line baseline"></div>
+    </div>
+    <div class="line-wrapper top-wrapper">
+      <div class="line top"></div>
+    </div>
+    <div class="line-wrapper bottom-wrapper">
+      <div class="line bottom"></div>
+    </div>
+    hello7
+    <div class="inline" style="height: 150px; vertical-align: bottom;"></div>
+    <div class="inline" style="height: 50px; vertical-align: top;"></div>
+    <div class="inline" style="height: 350px; background-color: plum; vertical-align: middle;"></div>
+  </div>
+
+  <div class="wrapper">
+    <div class="line-wrapper baseline-wrapper">
+      <div class="line baseline"></div>
+    </div>
+    <div class="line-wrapper top-wrapper">
+      <div class="line top"></div>
+    </div>
+    <div class="line-wrapper bottom-wrapper">
+      <div class="line bottom"></div>
+    </div>
+    <div class="line-wrapper text-top-wrapper">
+      <div class="line text-top"></div>
+    </div>
+    <div class="line-wrapper text-bottom-wrapper">
+      <div class="line text-bottom"></div>
+    </div>
+    hello8
+    <div class="inline" style="height: 150px; vertical-align: text-bottom;">1</div>
+    <div class="inline" style="height: 50px; vertical-align: top;">1</div>
+    <div class="inline" style="height: 350px; background-color: plum; vertical-align: text-top;">1</div>
+  </div>
+
+  <div class="wrapper">
+    <div class="line-wrapper baseline-wrapper">
+      <div class="line baseline"></div>
+    </div>
+    <div class="line-wrapper top-wrapper">
+      <div class="line top"></div>
+    </div>
+    <div class="line-wrapper bottom-wrapper">
+      <div class="line bottom"></div>
+    </div>
+    <div class="line-wrapper text-top-wrapper">
+      <div class="line text-top"></div>
+    </div>
+    <div class="line-wrapper text-bottom-wrapper">
+      <div class="line text-bottom"></div>
+    </div>
+    hello9
+    <div class="inline" style="height: 150px; vertical-align: text-top;">1</div>
+    <div class="inline" style="height: 50px; vertical-align: top;">1</div>
+    <div class="inline" style="height: 350px; background-color: plum; vertical-align: text-bottom;">1</div>
+  </div>
+
+  <div class="wrapper">
+    <div class="line-wrapper baseline-wrapper">
+      <div class="line baseline"></div>
+    </div>
+    <div class="line-wrapper top-wrapper">
+      <div class="line top"></div>
+    </div>
+    <div class="line-wrapper bottom-wrapper">
+      <div class="line bottom"></div>
+    </div>
+    <div class="line-wrapper text-top-wrapper">
+      <div class="line text-top"></div>
+    </div>
+    <div class="line-wrapper text-bottom-wrapper">
+      <div class="line text-bottom"></div>
+    </div>
+    <div class="inline" style="height: 150px; vertical-align: text-top;">1</div>
+    <div class="inline" style="height: 50px; vertical-align: top;">1</div>
+    <div class="inline" style="height: 350px; background-color: plum; vertical-align: text-bottom;">1</div>
+  </div>
+
+  <div class="wrapper">
+    <div class="line-wrapper baseline-wrapper">
+      <div class="line baseline"></div>
+    </div>
+    <div class="line-wrapper top-wrapper">
+      <div class="line top"></div>
+    </div>
+    <div class="line-wrapper bottom-wrapper">
+      <div class="line bottom"></div>
+    </div>
+    <div class="line-wrapper text-top-wrapper">
+      <div class="line text-top"></div>
+    </div>
+    <div class="line-wrapper text-bottom-wrapper">
+      <div class="line text-bottom"></div>
+    </div>
+    <span style="background-color: azure;">Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello </span>
+    <div class="inline" style="height: 150px; vertical-align: bottom;">1</div>
+    <div class="inline" style="height: 50px; vertical-align: top;">1</div>
+    <div class="inline" style="height: 550px; background-color: plum; vertical-align: baseline;">1</div>
+  </div>
+
+  <div class="wrapper">
+    <div class="line-wrapper baseline-wrapper">
+      <div class="line baseline"></div>
+    </div>
+    <div class="line-wrapper top-wrapper">
+      <div class="line top"></div>
+    </div>
+    <div class="line-wrapper bottom-wrapper">
+      <div class="line bottom"></div>
+    </div>
+    <div class="line-wrapper text-top-wrapper">
+      <div class="line text-top"></div>
+    </div>
+    <div class="line-wrapper text-bottom-wrapper">
+      <div class="line text-bottom"></div>
+    </div>
+    hello11 中国
+    <div class="inline" style="height: 150px; vertical-align: bottom;"></div>
+    <div class="inline" style="height: 150px; vertical-align: top;"></div>
+    <div class="inline" style="height: 350px; background-color: plum; vertical-align: baseline;"></div>
+    <div class="inline" style="height: 150px; background-color: plum; vertical-align: text-top;"></div>
+    <div class="inline" style="height: 150px; background-color: plum; vertical-align: text-bottom;"></div>
+  </div>
+
+  <div class="wrapper">
+    <div class="line-wrapper baseline-wrapper">
+      <div class="line baseline"></div>
+    </div>
+    <div class="line-wrapper top-wrapper">
+      <div class="line top"></div>
+    </div>
+    <div class="line-wrapper bottom-wrapper">
+      <div class="line bottom"></div>
+    </div>
+    <div class="line-wrapper text-top-wrapper">
+      <div class="line text-top"></div>
+    </div>
+    <div class="line-wrapper text-bottom-wrapper">
+      <div class="line text-bottom"></div>
+    </div>
+    hello12 中国
+    <div class="inline" style="height: 150px; vertical-align: bottom;">1</div>
+    <div class="inline" style="height: 150px; vertical-align: top;">1</div>
+    <div class="inline" style="height: 350px; background-color: plum; vertical-align: baseline;">1</div>
+    <div class="inline" style="height: 150px; background-color: plum; vertical-align: text-top;">1</div>
+    <div class="inline" style="height: 150px; background-color: plum; vertical-align: text-bottom;">1</div>
+  </div>
+</body>
+</html>
