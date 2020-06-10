@@ -1,0 +1,14 @@
+<div id="a" style="width: 100%; height: 300px; background-color: lightblue;">
+  <div id="b" style="width: 100%; height: 200px; background-color: palevioletred;"></div>
+</div>
+
+<script>
+  let a = document.getElementById('a')
+  let b = document.getElementById('b')
+
+  a.addEventListener('click', () => console.log('a true'), true)
+  b.addEventListener('click', () => console.log('b true'), true)
+
+  a.addEventListener('click', () => console.log('a false'), false)
+  b.addEventListener('click', () => console.log('b false'), false)
+</script>

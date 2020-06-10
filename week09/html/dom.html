@@ -1,0 +1,23 @@
+<div id="x">
+  <div>1</div>
+  <div>2</div>
+  <div>3</div>
+  <div>4</div>
+</div>
+
+<div id="b"></div>
+
+<script>
+  let x = document.getElementById('x')
+  let b = document.getElementById('b')
+
+  // for(let i = 0; i < x.childNodes.length; i++) {
+  //   b.appendChild(x.children[i])
+  // }
+  // id="x" -> 2, 4
+  // id="b" -> 1, 3
+
+  while(x.children.length) {
+    b.appendChild(x.children[0])
+  }
+</script>
