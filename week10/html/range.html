@@ -1,0 +1,16 @@
+<div id="a">
+  123
+  <span style="background-color: blueviolet;">456789</span>
+  <span>0123456789</span>
+</div>
+
+<script>
+  const el = document.getElementById('a')
+
+  let range = new Range()
+
+  range.setStart(el.childNodes[1].childNodes[0], 3)
+  range.setEnd(el.childNodes[2], 3)
+
+  // range.extractContents()
+</script>

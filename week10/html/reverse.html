@@ -1,0 +1,46 @@
+<div id="a">
+  <span>1</span>
+  <p>2</p>
+  <a href="">3</a>
+  <div>4</div>
+</div>
+
+<script>
+  let a = document.getElementById('a')
+
+  // 1
+  // function reverseChildren(el) {
+  //   let children = [...el.childNodes]
+
+  //   children.reverse()
+
+  //   for(let child of children) {
+  //     el.appendChild(child)
+  //   }
+  // }
+
+  // 2
+  // function reverseChildren(el) {
+  //   let l = el.childNodes.length
+
+  //   while(l-- > 0) {
+  //     el.appendChild(el.childNodes[l])
+  //   }
+  // }
+
+  // 3
+  function reverseChildren(el) {
+    let range = new Range()
+    range.selectNodeContents(el)
+
+    let fragment = range.extractContents()
+    let l = fragment.childNodes.length
+    while(l-- > 0) {
+      fragment.appendChild(fragment.childNodes[l])
+    }
+    el.appendChild(fragment)
+  }
+
+  reverseChildren(a)
+
+</script>
