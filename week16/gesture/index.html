@@ -1,0 +1,30 @@
+<html>
+
+  <body>
+    <div id="my" style="transform: translate(0, 0); width: 100px; height: 100px; background: lightcoral;"></div>
+
+    <script src="./index.js"></script>
+
+    <script>
+      document.addEventListener('contextmenu', evt => evt.preventDefault())
+      document.addEventListener('selectstart', evt => evt.preventDefault())
+      document.addEventListener('touchmove', evt => evt.preventDefault(), {passive: false})
+
+      enableGesture(document.body)
+
+      let x = 0
+      let y = 0
+
+      const my = document.getElementById('my')
+
+      document.body.addEventListener('pan', evt => {
+        my.style.transform = `translate(${x + evt.clientX - evt.startX}px, ${y + evt.clientY - evt.startY}px)`
+      })
+
+      document.body.addEventListener('panend', evt => {
+        x = x + evt.clientX - evt.startX
+        y = y + evt.clientY - evt.startY
+      })
+    </script>
+  </body>
+</html>
