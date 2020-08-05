@@ -15,6 +15,13 @@ module.exports = {
           },
         },
       },
+      {
+        test: /\.css$/,
+        use: {
+          // loader: 'css-loader',
+          loader: require.resolve('./mycss-loader.js'),
+        },
+      },
     ],
   },
 
