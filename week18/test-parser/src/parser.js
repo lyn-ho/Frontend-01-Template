@@ -300,7 +300,7 @@ function scriptDataEndTagOpen(c){
 
         emit({
             type:"text",
-            content:"c"
+            content: c
         });
         return scriptData;
     }

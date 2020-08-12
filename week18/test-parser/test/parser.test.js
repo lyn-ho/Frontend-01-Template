@@ -134,30 +134,27 @@ it('with property 3', () => {
 })
 
 it('attribute with no value', () => {
-  const doc = parseHTML("<div id=a class='cls' data=\"abc\" />")
+  const doc = parseHTML("<div class />")
+})
 
-  const div = doc.children[0]
+it('attribute with no value', () => {
+  const doc = parseHTML("<div class id />")
+})
 
-  let count = 0
+it('attribute ', () => {
+  const doc = parseHTML("<div class=cls></div>")
+})
 
-  for(let attr of div.attributes) {
-    if(attr.name === 'id') {
-      count++
-      assert.equal(attr.value, 'a')
-    }
+it('attribute ', () => {
+  const doc = parseHTML("<div class=cls/>")
+})
 
-    if(attr.name === 'class') {
-      count++
-      assert.equal(attr.value, 'cls')
-    }
+it('attribute', () => {
+  const doc = parseHTML(`<div class='cls'a />`)
+})
 
-    if(attr.name === 'data') {
-      count++
-      assert.equal(attr.value, 'abc')
-    }
-  }
-
-  assert.equal(count, 3)
+it('UPPERCASE tagName', () => {
+  const doc = parseHTML('<DIV />')
 })
 
 it('script', () => {
@@ -179,7 +176,7 @@ it('script', () => {
   const doc = parseHTML(`<script>${content}</script>`)
 
   const text = doc.children[0].children[0]
-  console.log(text)
+  // console.log(text)
 
   assert.equal(text.type, 'text')
   assert.equal(text.content, content)
